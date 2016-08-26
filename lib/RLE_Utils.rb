@@ -5,7 +5,7 @@ module RLE_Utils
   BASE_LINE_LENGTH = 16
 
   def self.expand(input, length)
-    result = input.gsub(/(\d+[A-Z]+)/) do |element|
+    result = input.gsub(/\d+[A-Z]+/) do |element|
       captures = element.match(/(\d+)([A-Z])/).captures
       captures.last * captures.first.to_i
     end
@@ -20,7 +20,12 @@ module RLE_Utils
     text = open(filename).readlines.first.chomp!
     expanded = expand(text, length)
     decoded = decode(expanded)
-    decoded.each { |row| puts row.join }
+    decoded.each do |row|
+      row.each do |cell|
+        print cell * 2
+      end
+      print "\n"
+    end
     nil
   end
 end
